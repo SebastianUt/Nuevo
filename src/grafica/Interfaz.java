@@ -1,9 +1,25 @@
 package grafica;
 
-import java.awt.Container;
 import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import juego.ente.Ente;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.text.IconView;
 
 
 public class Interfaz extends JFrame{
@@ -31,6 +47,8 @@ public class Interfaz extends JFrame{
 		setVisible(true);
 		cont.setVisible(true);
 		
+		crearBarraMenu();
+		
 	}
 	
 	public PanelMapa getPanelMapa() {
@@ -45,4 +63,35 @@ public class Interfaz extends JFrame{
 		return panelTienda;
 	}
 	
+	public void crearBarraMenu(){
+
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("Menu");
+		JMenuItem acercaDe = new JMenuItem("Acerca De");
+		JMenuItem salir = new JMenuItem("Salir");
+
+		setJMenuBar(menuBar);
+		menuBar.add(menu);
+		menu.add(acercaDe);
+		menu.add(salir);
+		
+		acercaDe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String msj = "Este juego fue desarrollado por:\n - Teo Vogel\n"
+						+ " - Franco Culaciati\n - Guido Pierdominici\n\n"
+						+ "Alumnos de Tecnología de Programación de\n"
+						+ " la Universidad Nacional del Sur año 2017.";
+				JOptionPane.showMessageDialog(null, msj, "Acerca De", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		salir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int opt = JOptionPane.showConfirmDialog(null, "¿Está seguro que desa salir del juego?", "Salir", JOptionPane.WARNING_MESSAGE);
+				if(opt == JOptionPane.OK_OPTION)
+					System.exit(0);
+			}
+		});
+		
+		repaint();
+	}
 }
