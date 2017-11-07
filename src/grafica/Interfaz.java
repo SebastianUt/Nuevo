@@ -18,6 +18,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 
+import juego.Idioma;
+
 
 public class Interfaz extends JFrame{
 	private Container cont;
@@ -26,11 +28,12 @@ public class Interfaz extends JFrame{
 	private PanelTienda panelTienda;
 	private JMenu menu, menuIdioma;
 	private JMenuItem acercaDe, salir, puntaje;
-	private String lang = "EN";
+	private Idioma idioma;
 	
-	public Interfaz() {
+	public Interfaz(Idioma idioma) {
 		super("Game");
-	
+		
+		this.idioma = idioma;
 		cont=getContentPane();		
 		cont.setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +70,7 @@ public class Interfaz extends JFrame{
 
 		JMenuBar menuBar = new JMenuBar();
 		menu = new JMenu("Menu");
-		puntaje = new JMenuItem("Puntaje");
+		puntaje = new JMenuItem("Score");
 		
 		acercaDe = new JMenuItem("About");
 		salir = new JMenuItem("Exit");
@@ -77,6 +80,7 @@ public class Interfaz extends JFrame{
 		JRadioButtonMenuItem spanish = new JRadioButtonMenuItem("Español");
 		ButtonGroup group = new ButtonGroup();
 		
+		english.setSelected(true);
 		
 		setJMenuBar(menuBar);
 		menuBar.add(menu);
@@ -93,26 +97,22 @@ public class Interfaz extends JFrame{
 		group.add(spanish);
 		
 		
+	
 		acercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String msj = "\n" + 
-						"This game was developed by:\n - Teo Vogel\n"
-						+ " - Franco Culaciati\n - Guido Pierdominici\n\n"
-						+ "Students of Tecnología de Programación at\n"
-						+ " Universidad Nacional del Sur 2017.";
-				JOptionPane.showMessageDialog(null, msj, "About", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, idioma.getAbout(), acercaDe.getText(), JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		salir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int opt = JOptionPane.showConfirmDialog(null, "Do you want to exit?", "Exit", JOptionPane.WARNING_MESSAGE);
+				int opt = JOptionPane.showConfirmDialog(null, idioma.getExit(), salir.getText(), JOptionPane.WARNING_MESSAGE);
 				if(opt == JOptionPane.OK_OPTION)
 					System.exit(0);
 			}
 		});
 		puntaje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String texto = "PUNTAJES HISTORICOS: \n";
+				String texto = "";
 				try {
 					BufferedReader w = new BufferedReader(new FileReader("puntaje.txt"));
 					ArrayList<String> rows = new ArrayList<String>();
@@ -122,24 +122,60 @@ public class Interfaz extends JFrame{
 					Collections.sort(rows);
 					int i = 0;
 					if(rows.size() == 0)
-						texto += "Aun no hay puntajes almacenados.";
+						texto = idioma.getEmptyScore();
 					while(i<rows.size() && i<10) {
 						String puntaje = rows.get(rows.size()-(i+1));
 						String pts = puntaje.substring(0, 2);
 						String fecha = puntaje.substring(2);
-						texto+=""+(i+1)+"- Pts: "+pts+"   |   Fecha: "+fecha+"\n";
+						texto+=""+(i+1)+"- "+idioma.getPoints()+": "+pts+"   |  "+idioma.getDate()+"  "+fecha+"\n";
 						i++;
 					}
 					w.close();
 				}catch(IOException ex) {
 					//Si no existe el archivo puntajes aun...
-					texto += "Aun no hay puntajes almacenados.";
+					texto = idioma.getEmptyScore();
 				}
 			
-				JOptionPane.showMessageDialog(null, texto, "Puntajes", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, texto, puntaje.getText(), JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		english.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				setLang("EN");
+			}
+		});
+		spanish.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				setLang("ES");
 			}
 		});
 		
 		repaint();
 	}
+	
+	private void setLang(String choise){
+		switch(choise){
+			case "EN":{
+				idioma.setLang(choise);
+				menu.setText("Menu");
+				acercaDe.setText("About");
+				salir.setText("Exit");
+				puntaje.setText("Score");
+				menuIdioma.setText("Language");
+				break;
+			}
+			case "ES":{
+				idioma.setLang(choise);
+				menu.setText("Menú");
+				acercaDe.setText("Acerca De");
+				salir.setText("Salir");
+				puntaje.setText("Puntaje");
+				menuIdioma.setText("Idioma");
+				break;
+			}
+		}
+	}
+	
+
+	
 }

@@ -32,6 +32,7 @@ public class Juego {
 	
 	private Mercado mercado;
 	private int puntos;
+	private Idioma idioma = new Idioma();
 	
 	private int dificultad = 4;
 	private List<Nivel> niveles = new ArrayList<Nivel>();
@@ -43,7 +44,7 @@ public class Juego {
 	
 	private Juego(){
 		mercado = new Mercado();
-		interfaz= new Interfaz();
+		interfaz= new Interfaz(idioma);
 		mapa = new Mapa(interfaz.getPanelMapa());
 		int i = 0;		
 		minimoPuntaje = -1;
@@ -91,7 +92,7 @@ public class Juego {
 		int rnd = (int) (Math.random() *90+10);
 		if(rnd > minimoPuntaje)
 			almacenarPuntaje(rnd);
-		JOptionPane.showMessageDialog(null, "Ganaste!");
+		JOptionPane.showMessageDialog(null, idioma.getWin(), idioma.getEnd(), JOptionPane.INFORMATION_MESSAGE);
 		interfaz.dispatchEvent(new WindowEvent(interfaz, WindowEvent.WINDOW_CLOSING));
 	}
 	
@@ -99,7 +100,7 @@ public class Juego {
 		int rnd = (int) (Math.random() * 100);
 		if(rnd > minimoPuntaje)
 			almacenarPuntaje(rnd);
-		JOptionPane.showMessageDialog(null, "Perdiste!");
+		JOptionPane.showMessageDialog(null, idioma.getLose(), idioma.getEnd(), JOptionPane.INFORMATION_MESSAGE);
 		interfaz.dispatchEvent(new WindowEvent(interfaz, WindowEvent.WINDOW_CLOSING));
 	}
 	
