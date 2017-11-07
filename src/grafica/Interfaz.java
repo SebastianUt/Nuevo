@@ -4,27 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import juego.ente.Ente;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.text.IconView;
 
 
 public class Interfaz extends JFrame{
@@ -34,7 +23,7 @@ public class Interfaz extends JFrame{
 	private PanelTienda panelTienda;
 	
 	public Interfaz() {
-		super("juego");
+		super("Game");
 	
 		cont=getContentPane();		
 		cont.setLayout(new BorderLayout());
@@ -72,10 +61,11 @@ public class Interfaz extends JFrame{
 
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("Menu");
-		JMenuItem acercaDe = new JMenuItem("Acerca De");
-		JMenuItem salir = new JMenuItem("Salir");
 		JMenuItem puntaje = new JMenuItem("Puntaje");
 		
+		JMenuItem acercaDe = new JMenuItem("About");
+		JMenuItem salir = new JMenuItem("Exit");
+
 		setJMenuBar(menuBar);
 		menuBar.add(menu);
 		menu.add(acercaDe);
@@ -85,16 +75,17 @@ public class Interfaz extends JFrame{
 		
 		acercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String msj = "Este juego fue desarrollado por:\n - Teo Vogel\n"
+				String msj = "\n" + 
+						"This game was developed by:\n - Teo Vogel\n"
 						+ " - Franco Culaciati\n - Guido Pierdominici\n\n"
-						+ "Alumnos de Tecnología de Programación de\n"
-						+ " la Universidad Nacional del Sur año 2017.";
-				JOptionPane.showMessageDialog(null, msj, "Acerca De", JOptionPane.INFORMATION_MESSAGE);
+						+ "Students of Tecnología de Programación at\n"
+						+ " Universidad Nacional del Sur 2017.";
+				JOptionPane.showMessageDialog(null, msj, "About", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		salir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int opt = JOptionPane.showConfirmDialog(null, "¿Está seguro que desa salir del juego?", "Salir", JOptionPane.WARNING_MESSAGE);
+				int opt = JOptionPane.showConfirmDialog(null, "Do you want to exit?", "Exit", JOptionPane.WARNING_MESSAGE);
 				if(opt == JOptionPane.OK_OPTION)
 					System.exit(0);
 			}
