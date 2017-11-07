@@ -21,6 +21,9 @@ public class Interfaz extends JFrame{
 	private PanelMapa panelMapa;
 	private PanelMenu panelMenu;
 	private PanelTienda panelTienda;
+	private JMenu menu;
+	private JMenuItem acercaDe, salir, puntaje;
+	private String lang = "EN";
 	
 	public Interfaz() {
 		super("Game");
@@ -60,11 +63,11 @@ public class Interfaz extends JFrame{
 	public void crearBarraMenu(){
 
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("Menu");
-		JMenuItem puntaje = new JMenuItem("Puntaje");
+		menu = new JMenu("Menu");
+		puntaje = new JMenuItem("Puntaje");
 		
-		JMenuItem acercaDe = new JMenuItem("About");
-		JMenuItem salir = new JMenuItem("Exit");
+		acercaDe = new JMenuItem("About");
+		salir = new JMenuItem("Exit");
 
 		setJMenuBar(menuBar);
 		menuBar.add(menu);
