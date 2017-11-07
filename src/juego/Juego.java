@@ -1,15 +1,22 @@
 package juego;
 
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-
 import javax.swing.JOptionPane;
 
 import grafica.Interfaz;
-import juego.ente.Celda;
-import juego.ente.Enemigo;
 import juego.niveles.Nivel;
 import juego.niveles.Nivel1;
 
@@ -21,6 +28,7 @@ public class Juego {
 	private Mapa mapa;
 	private Interfaz interfaz;
 	private ContadorTiempo tiempo;
+	private int minimoPuntaje;
 	
 	private Mercado mercado;
 	private int puntos;
@@ -38,6 +46,7 @@ public class Juego {
 		interfaz= new Interfaz();
 		mapa = new Mapa(interfaz.getPanelMapa());
 		int i = 0;		
+		minimoPuntaje = -1;
 		
 		tiempo = new ContadorTiempo(this);
 		tiempo.start();
@@ -79,16 +88,52 @@ public class Juego {
 	}
 	
 	public void perder () {
-		JOptionPane.showMessageDialog(null, "You lose!");
+		int rnd = (int) (Math.random() *90+10);
+		if(rnd > minimoPuntaje)
+			almacenarPuntaje(rnd);
+		JOptionPane.showMessageDialog(null, "Ganaste!");
 		interfaz.dispatchEvent(new WindowEvent(interfaz, WindowEvent.WINDOW_CLOSING));
 	}
 	
 	public void ganar () {
-		JOptionPane.showMessageDialog(null, "You win!");
+		int rnd = (int) (Math.random() * 100);
+		if(rnd > minimoPuntaje)
+			almacenarPuntaje(rnd);
+		JOptionPane.showMessageDialog(null, "Perdiste!");
 		interfaz.dispatchEvent(new WindowEvent(interfaz, WindowEvent.WINDOW_CLOSING));
 	}
 	
 	//TODO esto es horrible
 	public Juego getThis() { return this; }
-
+	
+	private void almacenarPuntaje(int p){
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		//Creo el string para almacenar en el archivo
+		String temp = p+" " + cal.getTime().toString() + "\n";
+		String str = temp.replaceAll("\n", System.lineSeparator());
+		try {
+			//Abro o creo el archivo
+			Path filePath = Paths.get("puntaje.txt");
+			if (!Files.exists(filePath)) {
+			    Files.createFile(filePath);
+			}
+			//Escribo en el archivo abierto
+			Files.write(filePath, str.getBytes(), StandardOpenOption.APPEND);
+					
+		    ArrayList<String> rows = new ArrayList<String>();
+		    BufferedReader w = new BufferedReader(new FileReader("puntaje.txt"));
+		    String s;
+		    while((s = w.readLine())!=null)
+		        rows.add(s);
+		    Collections.sort(rows);
+		    int i =0;
+		    for(i=0; i<10 && i<rows.size(); i++)
+					System.out.print(rows.get(rows.size()-(i+1))+"\n");
+		    w.close();
+		    } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		    }
+}
 }
