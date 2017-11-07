@@ -120,20 +120,9 @@ public class Juego {
 			}
 			//Escribo en el archivo abierto
 			Files.write(filePath, str.getBytes(), StandardOpenOption.APPEND);
-					
-		    ArrayList<String> rows = new ArrayList<String>();
-		    BufferedReader w = new BufferedReader(new FileReader("puntaje.txt"));
-		    String s;
-		    while((s = w.readLine())!=null)
-		        rows.add(s);
-		    Collections.sort(rows);
-		    int i =0;
-		    for(i=0; i<10 && i<rows.size(); i++)
-					System.out.print(rows.get(rows.size()-(i+1))+"\n");
-		    w.close();
-		    } catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-		    }
+				
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 }
 }
