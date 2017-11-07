@@ -9,11 +9,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
 
 
 public class Interfaz extends JFrame{
@@ -21,7 +24,7 @@ public class Interfaz extends JFrame{
 	private PanelMapa panelMapa;
 	private PanelMenu panelMenu;
 	private PanelTienda panelTienda;
-	private JMenu menu;
+	private JMenu menu, menuIdioma;
 	private JMenuItem acercaDe, salir, puntaje;
 	private String lang = "EN";
 	
@@ -69,11 +72,25 @@ public class Interfaz extends JFrame{
 		acercaDe = new JMenuItem("About");
 		salir = new JMenuItem("Exit");
 
+		menuIdioma = new JMenu("Language");
+		JRadioButtonMenuItem english = new JRadioButtonMenuItem("English");
+		JRadioButtonMenuItem spanish = new JRadioButtonMenuItem("Español");
+		ButtonGroup group = new ButtonGroup();
+		
+		
 		setJMenuBar(menuBar);
 		menuBar.add(menu);
-		menu.add(acercaDe);
 		menu.add(puntaje);
+		menu.add(menuIdioma);
+		menuIdioma.add(english);
+		menuIdioma.add(spanish);
+		menu.addSeparator();
+		menu.add(acercaDe);
+		menu.addSeparator();
 		menu.add(salir);
+		
+		group.add(english);
+		group.add(spanish);
 		
 		
 		acercaDe.addActionListener(new ActionListener() {
