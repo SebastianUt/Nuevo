@@ -1,4 +1,4 @@
 # PSS17-TPEO3-Com5
 
-  Manuel Pandolfi
+  Manuel Pandolfi -
   Utizi Sebastián
